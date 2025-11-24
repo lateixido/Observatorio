@@ -18,16 +18,7 @@ BEGIN
     DELETE FROM CuerpoCeleste;
     DELETE FROM Descubridores;
     DELETE FROM Constelaciones;
-    
-    -- Restablecer el contador AUTO_INCREMENT (requiere sentencia dinámica en MySQL 8+)
-    -- Si falla, no es crítico para la prueba, solo para los IDs.
-    -- SET @disable_checks = 0;
-    -- SELECT @disable_checks;
-    -- SET @s = (SELECT CONCAT('ALTER TABLE ', table_name, ' AUTO_INCREMENT = 1') 
-    --          FROM information_schema.tables WHERE table_schema = DATABASE() AND table_type = 'BASE TABLE');
-    -- PREPARE stmt FROM @s;
-    -- EXECUTE stmt;
-    -- DEALLOCATE PREPARE stmt;
+   
 
 END //
 DELIMITER ;
@@ -47,8 +38,8 @@ CALL SP_Alta_Constelacion('Sagitario') // -- ID 1
 CALL SP_Alta_Constelacion('Andrómeda') // -- ID 2
 
 -- ALTA DESCUBRIDORES (IDs 1, 2)
-CALL SP_Alta_Descubridor('Carl', 'Sagan', '1934-11-09', 'L0001') // -- ID 1 (Personal)
-CALL SP_Alta_Descubridor('Vera', 'Rubin', '1928-07-23', NULL) //      -- ID 2 (No personal)
+CALL SP_Alta_Descubridor('Carl', 'Sagan', '1934-11-09', 'L0001') // -- ID 1
+CALL SP_Alta_Descubridor('Vera', 'Rubin', '1928-07-23', NULL) //    -- ID 2
 
 -- ALTA ESTRELLA PRIMARIA (ID 1) - Sirio A
 CALL SP_Alta_Estrella(
@@ -108,7 +99,7 @@ CALL SP_Modificar_Descubridor(
 
 -- MODIFICACIÓN 2.3: Actualizar habitabilidad de un vínculo (Planeta 3 / Estrella 1)
 CALL SP_Modificar_Vínculo_Planeta_Estrella(
-    3, 1, 0.7100, TRUE, TRUE -- Lo cambiamos a Potencialmente Habitable
+    3, 1, 0.7100, TRUE, TRUE -- Se cambia a Potencialmente Habitable
 ) //
 
 -- MODIFICACIÓN 2.4: Actualizar datos de observación (Satélite, ID 4)
@@ -134,9 +125,6 @@ SELECT
     FN_Celsius_a_Kelvin(9940.00) AS Temp_Sirio_K,
     FN_LY_a_KM(8.6) AS Distancia_Sirio_KM //
 
--- PRUEBA 3.2: Error de restricción CHECK (Color de estrella inválido)
--- NOTA: MySQL/MariaDB lanza el error directamente durante el CALL.
-SELECT 'ERROR ESPERADO: Restricción CHECK de Color de Estrella (Lanzado durante el CALL). OK.' AS Mensaje //
 
 -- ####################################################################
 -- # 4. PRUEBAS DE BAJA (CASCADE LÓGICO)

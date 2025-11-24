@@ -1,4 +1,4 @@
--- Cambia el delimitador para permitir la creación de procedimientos con múltiples sentencias
+-- Cambiar el delimitador para permitir la creación de procedimientos con múltiples sentencias
 DELIMITER //
 
 -- ####################################################################
